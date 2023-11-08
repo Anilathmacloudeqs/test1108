@@ -7,23 +7,20 @@ on:
 
 jobs:
   get-commit-id:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - name: Check out code
       uses: actions/checkout@v2
 
     - name: Set up PowerShell
-      uses: actions/setup-powershell@v1
-      with:
-        pwsh-version: '7'
-
-    - name: Execute PowerShell script
       run: |
-        # Configure Git and get the commit ID
-        git config --global user.name 'Anilathmdeqs'
-        git config --global user.email 'anilathma@gmail.com'
+        git config --global user.name 'Anilathmacloudeqs'
+        git config --global user.email 'anilathma@cloudeqs.com'
         git config pull.rebase false
+
+        # Install Git if not available
+        choco install git -y
 
         echo "##change Executing git pull on $env:SourceTag"
         git pull origin $env:SourceTag --allow-unrelated-histories
