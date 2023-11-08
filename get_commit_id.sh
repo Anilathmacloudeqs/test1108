@@ -1,4 +1,5 @@
 #!/bin/bash
+chmod +x script.sh
 TAG="p1.0"
 FILE="main.py"
 
