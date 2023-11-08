@@ -1,37 +1,37 @@
-name: Get Commit ID2
+name: Get Commit ID
 
 on:
   push:
-    branches:
-      - main  # Adjust this branch name as needed
+    tags:
+      - '*'
 
 jobs:
   get-commit-id:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Check out code
-      uses: actions/checkout@v2
-
-    - name: Set up PowerShell
+    - name: Set up Git
       run: |
         git config --global user.name 'Anilathmacloudeqs'
         git config --global user.email 'anilathma@cloudeqs.com'
         git config pull.rebase false
 
-        # Install Git if not available
-        choco install git -y
+    - name: Extract Tag Name
+      id: extract_tag
+      run: echo "::set-output name=tag::${GITHUB_REF/refs\/tags\//}"
 
-        echo "##change Executing git pull on $env:SourceTag"
-        git pull origin $env:SourceTag --allow-unrelated-histories
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-        echo "Getting commit id for $env:SourceTag"
-        $commitid = (git log -n 1 --pretty=format:"%H")
-
+    - name: Get Commit ID
+      run: |
+        tag="$env:tag"
+        echo "Getting commit ID for tag: $tag"
+        commitid=$(git rev-list -n 1 $tag)
         echo "Commit ID: $commitid"
-
-        # Set the commit id as an environment variable
-        $env:COMMIT_ID = $commitid
+        echo "##[set-output name=commit_id;]$commitid"
+      id: get_commit_id
 
     - name: Display Commit ID
-      run: echo "Commit ID is $env:COMMIT_ID"
+      run: |
+        echo "Commit ID is ${{ steps.get_commit_id.outputs.commit_id }}"
