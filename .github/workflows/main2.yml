@@ -1,21 +1,40 @@
 name: Get Commit ID2
 
 on:
-  workflow_dispatch:
   push:
     branches:
-      - main
+      - main  # Adjust this branch name as needed
 
 jobs:
-  get_commit_id:
+  get-commit-id:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out the code
-        uses: actions/checkout@v2
-        with:
-          ref: main
+    - name: Check out code
+      uses: actions/checkout@v2
 
-      - name: Run PowerShell script
-        run: |
-          pwsh -File getcommitid.ps1 -SourceTag "p1.0"
+    - name: Set up PowerShell
+      uses: actions/setup-powershell@v1
+      with:
+        pwsh-version: '7'
+
+    - name: Execute PowerShell script
+      run: |
+        # Configure Git and get the commit ID
+        git config --global user.name 'Anilathmdeqs'
+        git config --global user.email 'anilathma@gmail.com'
+        git config pull.rebase false
+
+        echo "##change Executing git pull on $env:SourceTag"
+        git pull origin $env:SourceTag --allow-unrelated-histories
+
+        echo "Getting commit id for $env:SourceTag"
+        $commitid = (git log -n 1 --pretty=format:"%H")
+
+        echo "Commit ID: $commitid"
+
+        # Set the commit id as an environment variable
+        $env:COMMIT_ID = $commitid
+
+    - name: Display Commit ID
+      run: echo "Commit ID is $env:COMMIT_ID"
