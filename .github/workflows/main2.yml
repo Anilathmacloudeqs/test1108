@@ -27,6 +27,7 @@ jobs:
       run: |
         tag="$env:tag"
         echo "Getting commit ID for tag: $tag"
+        git fetch --tags
         commitid=$(git rev-list -n 1 $tag)
         echo "Commit ID: $commitid"
         echo "##[set-output name=commit_id;]$commitid"
