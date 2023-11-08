@@ -15,10 +15,6 @@ jobs:
         with:
           ref: main
 
-      - name: Make the script executable
-        run: chmod +x get_commit_id.sh
-        working-directory: ${{ github.workspace }}
-
-      - name: Run the script
-        run: ./get_commit_id.sh
-        working-directory: ${{ github.workspace }}
+      - name: Run PowerShell script
+        run: |
+          pwsh -File getcommitid.ps1 -SourceTag "p1.0"
