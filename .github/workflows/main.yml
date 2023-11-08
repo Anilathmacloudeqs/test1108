@@ -1,8 +1,9 @@
 name: Get Commit ID
+
 on:
   push:
     branches:
-      - main  # Adjust this to match your repository's default branch
+      - main
 
 jobs:
   get_commit_id:
@@ -11,6 +12,13 @@ jobs:
     steps:
       - name: Check out the code
         uses: actions/checkout@v2
+        with:
+          ref: main
 
-      - name: Run the shell script
+      - name: Make the script executable
+        run: chmod +x get_commit_id.sh
+        working-directory: ${{ github.workspace }}
+
+      - name: Run the script
         run: ./get_commit_id.sh
+        working-directory: ${{ github.workspace }}
