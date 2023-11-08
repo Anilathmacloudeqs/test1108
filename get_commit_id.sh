@@ -1,5 +1,6 @@
 #!/bin/bash
-chmod +x script.sh
+chmod +x get_commit_id.sh
+
 TAG="p1.0"
 FILE="main.py"
 
