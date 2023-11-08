@@ -1,0 +1,16 @@
+name: Get Commit ID
+on:
+  push:
+    branches:
+      - main  # Adjust this to match your repository's default branch
+
+jobs:
+  get_commit_id:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v2
+
+      - name: Run the shell script
+        run: ./get_commit_id.sh
