@@ -1,0 +1,21 @@
+name: Get Commit ID
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  get_commit_id:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v2
+        with:
+          ref: main
+
+      - name: Run PowerShell script
+        run: |
+          pwsh -File getcommitid.ps1 -SourceTag "p1.0"
+        shell: pwsh
