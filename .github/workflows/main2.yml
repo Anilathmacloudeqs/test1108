@@ -1,38 +1,36 @@
-name: Get Commit ID
+name: Manual Python and PowerShell Workflows
+#env:
+#  NAME: 'Snyk Demo'
 
 on:
-  push:
-    tags:
-      - '*'
-
+  workflow_dispatch:
+    inputs:
+      Tag:
+        description: The git tag name to pass to the Python and PowerShell scripts.
+        required: true
+        type: string
+env:
+  COMMIT_ID: ${{ github.sha }}
+  #COMMIT_ID: '1'
+  #SVC_MATILLION_USERNAME: ${{secrets.SVC_MATILLION_PASSWORD}}
+  #svc_matillion_password: 'test1234'
+  #Matillion_Project: 'CLOUDX_DEMO'
+  #Matillion_Group: 'TEST'
+  #Matillion_Version: 'v1.1'
+  #Matillion_Instance: '192.168.1.1'
+  #svc_repos_email: 'test@gmail.com'
+  #svc_repos_password: 'test1234'
+  
+  
 jobs:
-  get-commit-id:
+  get_commit_id:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Set up Git
-      run: |
-        git config --global user.name 'Anilathmacloudeqs'
-        git config --global user.email 'anilathma@cloudeqs.com'
-        git config pull.rebase false
+      - uses: actions/checkout@v3
 
-    - name: Extract Tag Name
-      id: extract_tag
-      run: echo "::set-output name=tag::${GITHUB_REF/refs\/tags\//}"
-
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Get Commit ID
-      run: |
-        tag="$env:tag"
-        echo "Getting commit ID for tag: $tag"
-        git fetch --tags
-        commitid=$(git rev-list -n 1 $tag)
-        echo "Commit ID: $commitid"
-        echo "##[set-output name=commit_id;]$commitid"
-      id: get_commit_id
-
-    - name: Display Commit ID
-      run: |
-        echo "Commit ID is ${{ steps.get_commit_id.outputs.commit_id }}"
+      - name: GetCommitId
+        run: |
+          pwsh -File ./.github/workflows/getcommitid.ps1 -SourceTag ${{ inputs.Tag }}
+        #echo "COMMIT_ID=$commitid" >> $GITHUB_ENV
+        shell: pwsh
