@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: GetCommitId
+      - name: GetCommitIdtest
         run: |
           pwsh -File getcommitid.ps1 -SourceTag ${{ github.event.ref }}
         shell: pwsh
