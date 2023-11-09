@@ -31,6 +31,6 @@ jobs:
 
       - name: GetCommitId
         run: |
-          pwsh -File ./.github/workflows/getcommitid.ps1 -SourceTag ${{ inputs.Tag }}
+          pwsh -File getcommitid.ps1 -SourceTag ${{ inputs.Tag }}
         #echo "COMMIT_ID=$commitid" >> $GITHUB_ENV
         shell: pwsh
