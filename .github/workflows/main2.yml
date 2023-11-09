@@ -9,7 +9,7 @@ env:
   COMMIT_ID: ${{ github.sha }}
 
 jobs:
-  get_commit_id_ani:
+  get_commit_id_a:
     runs-on: ubuntu-latest
 
     steps:
