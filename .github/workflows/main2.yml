@@ -23,7 +23,7 @@ env:
   
   
 jobs:
-  get_commit_id_anil:
+  get_commit_id_ani:
     runs-on: ubuntu-latest
 
     steps:
