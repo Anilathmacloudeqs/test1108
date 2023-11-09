@@ -1,27 +1,13 @@
-name: Manual Python and PowerShell Workflows
-#env:
-#  NAME: 'Snyk Demo'
+name: Automatic Python and PowerShell Workflows
 
 on:
-  workflow_dispatch:
-    inputs:
-      Tag:
-        description: The git tag name to pass to the Python and PowerShell scripts.
-        required: true
-        type: string
+  push:
+    tags:
+      - 'p1.0'  # Set the specific tag name you want to trigger the workflow on
+
 env:
   COMMIT_ID: ${{ github.sha }}
-  #COMMIT_ID: '1'
-  #SVC_MATILLION_USERNAME: ${{secrets.SVC_MATILLION_PASSWORD}}
-  #svc_matillion_password: 'test1234'
-  #Matillion_Project: 'CLOUDX_DEMO'
-  #Matillion_Group: 'TEST'
-  #Matillion_Version: 'v1.1'
-  #Matillion_Instance: '192.168.1.1'
-  #svc_repos_email: 'test@gmail.com'
-  #svc_repos_password: 'test1234'
-  
-  
+
 jobs:
   get_commit_id_ani:
     runs-on: ubuntu-latest
@@ -31,6 +17,5 @@ jobs:
 
       - name: GetCommitId
         run: |
-          pwsh -File getcommitid.ps1 -SourceTag ${{ inputs.Tag }}
-        #echo "COMMIT_ID=$commitid" >> $GITHUB_ENV
+          pwsh -File getcommitid.ps1 -SourceTag ${{ github.event.ref }}
         shell: pwsh
