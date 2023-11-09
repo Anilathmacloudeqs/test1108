@@ -1,21 +1,19 @@
-name: Automatic Python and PowerShell Workflows
+name: Automatic PowerShell Workflow
 
 on:
   push:
     tags:
       - 'p1.0'  # Set the specific tag name you want to trigger the workflow on
 
-env:
-  COMMIT_ID: ${{ github.sha }}
-
 jobs:
   get_commit_id_a:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: GetCommitIdtest
+      - name: Run PowerShell script
         run: |
-          pwsh -File getcommitid.ps1 -SourceTag ${{ github.event.ref }}
+          pwsh -File newshell.ps1 -SourceTag ${{ github.event.ref }}
         shell: pwsh
