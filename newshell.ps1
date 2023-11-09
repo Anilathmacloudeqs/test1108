@@ -1,18 +1,27 @@
+param (
+    # Name of the Source Tag
+    $SourceTag
+)
+
 git config --global user.name 'Anilathmacloudeqs' 
 git config --global user.email 'anilathma@cloudeqs.com'
 git config pull.rebase false 
 git config --list
 git branch
-Write-Host "testing the git tag list"
+
+Write-Host "Testing the git tag list"
 git tag
-Write-Host "testing after git tag"
-Write-Host "##change Executing git pull on $($env:SourceTag)"
-git pull origin $env:SourceTag --allow-unrelated-histories
+Write-Host "Testing after git tag"
 
-Write-Host "getting commit id for $($env:SourceTag)"
-$commitid = (git log -n 1 --pretty=format:"%H")
+Write-Host "## Change: Executing git pull on $($SourceTag)"
+git pull origin $SourceTag --allow-unrelated-histories
 
+Write-Host "Getting commit id for $($SourceTag)"
+$commitid = git log -n 1 --pretty=format:"%H"
 Write-Host "Commit ID: $commitid"
 
-# Set the commit id as an environment variable
-$env:COMMIT_ID = $commitid
+# Print the commit ID to check if it's being captured
+Write-Host "COMMIT_ID=$commitid"
+
+# Set the COMMIT_ID as an environment variable
+echo "COMMIT_ID=$commitid" >> $env:GITHUB_ENV
